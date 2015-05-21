@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <application>
+        <resource-bundle>
+            <base-name>PS3Web.messages</base-name>
+            <var>messages</var>
+        </resource-bundle>
+    </application>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{TasksBean.getTasks()}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-action>#{TasksBean.updateTask()}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/response.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>failure</from-outcome>
+            <to-view-id>/problem.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/response.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>index</from-action>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/problem.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>index</from-action>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+</faces-config>

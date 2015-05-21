@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Problem solver 3000: Web admin</title>
+        <link href="#{request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:body>
+        <h1><h:outputText value="#{messages.titelLabel}"/></h1>
+        <P></P>
+        <f:view>
+            <h:form>
+                <!-- Kommentar -->
+                <!--h:panelGrid: för layout i tabellform skriv border="1" för att visualisera tabellen -->
+                <!-- f:facet: motsvarar "thead" dvs rubrik på tabellen-->
+                <!-- h:message: skriver felmeddelande på sidan om resp. inputText-->
+                <!-- styleClass: refererar till style.css som specificerar utseende på html-taggar -->
+                <!-- studentBean: är en java-klass (managed bean) som håller data och metoder för gränssnittet -->
+                <h:panelGrid id="panel" columns="7" border="0" cellpadding="2" cellspacing="2">          
+                    <f:facet name="header"> 
+                        <h:outputText value="#{messages.tableHeader}"/>
+                    </f:facet>
+                        <h:outputLabel for="tech" value="Tech ID:" />
+                        <h:inputText id="tech" value="#{TasksBean.techId}"
+                                 required="true" 
+                                 requiredMessage="Tech ID required!"
+                                 maxlength="20"/>
+                        <h:message for="tech" styleClass="error"/>
+                    
+                    <h:commandButton id="save" value="Get tasks"
+                                     styleClass="button" action="#{TasksBean.getTasks()}"/>
+                    </h:panelGrid>
+                </h:form>
+        </f:view>
+        <P></P>
+            <!-- Kommentar -->
+            <!--h:dataTable: genererar automatiskt en tabell mha en java klass "studentBean"...-->
+            <!--...som har en metod (getStudents) som returnerar ett ResultSet-->
+            <h:dataTable value="#{TasksBean.tasks}" var="tasklist"
+                rowClasses="oddRows,evenRows" headerClass="header"
+                styleClass="table" cellpadding="5" cellspacing="0">
+                <h:column>
+                    <f:facet name="header">Task ID</f:facet>
+                    #{tasklist.ID}
+                 </h:column>
+                <h:column>
+                    <f:facet name="header">Priority</f:facet>
+                    #{tasklist.PRIORITY}
+                 </h:column>
+                <h:column>
+                    <f:facet name="header">For problem</f:facet>
+                    #{tasklist.PROBLEM_ID}
+                 </h:column>
+                <h:column>
+                    <f:facet name="header">Category</f:facet>
+                    #{tasklist.CATEGORY}
+                 </h:column>
+                <h:column>
+                    <f:facet name="header">Estimated time (minutes)</f:facet>
+                    #{tasklist.ESTTIME}
+                 </h:column>
+                <h:column>
+                    <f:facet name="header">Total used time (minutes)</f:facet>
+                    #{tasklist.USEDTIME}
+                 </h:column>
+                <h:column>
+                    <f:facet name="header">Comments</f:facet>
+                    #{tasklist.COMMENTS}
+                 </h:column>
+            </h:dataTable> 
+        
+            <h:form>
+                <!-- Kommentar -->
+                <!--h:panelGrid: för layout i tabellform skriv border="1" för att visualisera tabellen -->
+                <!-- f:facet: motsvarar "thead" dvs rubrik på tabellen-->
+                <!-- h:message: skriver felmeddelande på sidan om resp. inputText-->
+                <!-- styleClass: refererar till style.css som specificerar utseende på html-taggar -->
+                <!-- studentBean: är en java-klass (managed bean) som håller data och metoder för gränssnittet -->
+                <h:panelGrid id="panel" columns="3" border="0" cellpadding="2" cellspacing="2">          
+                    <f:facet name="header"> 
+                        <h:outputText value="#{messages.taskUpdate}"/>
+                    </f:facet>
+                        <h:outputLabel for="task" value="Task ID:" />
+                        <h:inputText id="task" value="#{TasksBean.taskId}"
+                                 required="true" 
+                                 requiredMessage="Task ID required!"
+                                 maxlength="20"/>
+                        <h:message for="task" styleClass="error"/>
+                        
+                        <h:outputLabel for="status" value="Status:" />
+                        <h:selectOneRadio id="status" value="#{TasksBean.status}"
+                                 required="true" 
+                                 requiredMessage="Please verify task status!">
+                        <f:selectItem itemValue="true" itemLabel="Task finished" />
+                        <f:selectItem itemValue="false" itemLabel="Task aborted" />
+                        <f:selectItem itemValue="ongoing" itemLabel="Needs more work" />
+                        </h:selectOneRadio>	
+                        <h:message for="status" styleClass="error"/>
+                        
+                        <h:outputLabel for="time" value="Total used time:" />
+                        <h:inputText id="time" value="#{TasksBean.usedTime}"
+                                 required="true" 
+                                 requiredMessage="Used time required!"
+                                 maxlength="20"/>
+                        <h:message for="time" styleClass="error"/>
+                        
+                        <h:outputLabel for="com" value="Comments:" />
+                        <h:inputText id="com" value="#{TasksBean.comments}"
+                                 required="true" 
+                                 requiredMessage="Please describe your work!"
+                                 maxlength="200"/>
+                        <h:message for="com" styleClass="error"/>
+                    </h:panelGrid>
+                    <h:commandButton id="save" value="Update task"
+                        styleClass="button" action="#{TasksBean.updateTask()}"/>
+                </h:form>
+         
+    </h:body>
+</html>
+
