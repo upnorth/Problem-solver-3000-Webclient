@@ -9,7 +9,6 @@
     </h:head>
     <h:body>
         <h1><h:outputText value="#{messages.titelLabel}"/></h1>
-        <P></P>
         <f:view>
             <h:form>
                 <!-- Kommentar -->
@@ -17,8 +16,7 @@
                 <!-- f:facet: motsvarar "thead" dvs rubrik på tabellen-->
                 <!-- h:message: skriver felmeddelande på sidan om resp. inputText-->
                 <!-- styleClass: refererar till style.css som specificerar utseende på html-taggar -->
-                <!-- studentBean: är en java-klass (managed bean) som håller data och metoder för gränssnittet -->
-                <h:panelGrid id="panel" columns="7" border="0" cellpadding="2" cellspacing="2">          
+                <h:panelGrid id="panel1" columns="7" border="0" cellpadding="2" cellspacing="2">          
                     <f:facet name="header"> 
                         <h:outputText value="#{messages.tableHeader}"/>
                     </f:facet>
@@ -29,12 +27,13 @@
                                  maxlength="20"/>
                         <h:message for="tech" styleClass="error"/>
                     
-                    <h:commandButton id="save" value="Get tasks"
-                                     styleClass="button" action="#{TasksBean.getTasks()}"/>
-                    </h:panelGrid>
-                </h:form>
+                    <h:commandButton id="findTasks" value="Find tasks"
+                                     styleClass="button" action="#{TasksBean.forTech()}"/>
+                </h:panelGrid>
+            </h:form>
         </f:view>
         <P></P>
+
             <!-- Kommentar -->
             <!--h:dataTable: genererar automatiskt en tabell mha en java klass "studentBean"...-->
             <!--...som har en metod (getStudents) som returnerar ett ResultSet-->
@@ -50,11 +49,11 @@
                     #{tasklist.PRIORITY}
                  </h:column>
                 <h:column>
-                    <f:facet name="header">For problem</f:facet>
+                    <f:facet name="header">Problem ID</f:facet>
                     #{tasklist.PROBLEM_ID}
                  </h:column>
                 <h:column>
-                    <f:facet name="header">Category</f:facet>
+                    <f:facet name="header">Category ID</f:facet>
                     #{tasklist.CATEGORY}
                  </h:column>
                 <h:column>
@@ -66,57 +65,62 @@
                     #{tasklist.USEDTIME}
                  </h:column>
                 <h:column>
+                    <f:facet name="header">Status</f:facet>
+                    #{tasklist.STATUS}
+                 </h:column>
+                <h:column>
                     <f:facet name="header">Comments</f:facet>
                     #{tasklist.COMMENTS}
                  </h:column>
             </h:dataTable> 
-        
-            <h:form>
+            
+        <h:form id="update">
+            <h:panelGrid id="panel2" columns="3" border="0" cellpadding="2" cellspacing="2">          
+
                 <!-- Kommentar -->
                 <!--h:panelGrid: för layout i tabellform skriv border="1" för att visualisera tabellen -->
                 <!-- f:facet: motsvarar "thead" dvs rubrik på tabellen-->
                 <!-- h:message: skriver felmeddelande på sidan om resp. inputText-->
                 <!-- styleClass: refererar till style.css som specificerar utseende på html-taggar -->
                 <!-- studentBean: är en java-klass (managed bean) som håller data och metoder för gränssnittet -->
-                <h:panelGrid id="panel" columns="3" border="0" cellpadding="2" cellspacing="2">          
-                    <f:facet name="header"> 
-                        <h:outputText value="#{messages.taskUpdate}"/>
-                    </f:facet>
-                        <h:outputLabel for="task" value="Task ID:" />
-                        <h:inputText id="task" value="#{TasksBean.taskId}"
-                                 required="true" 
-                                 requiredMessage="Task ID required!"
-                                 maxlength="20"/>
-                        <h:message for="task" styleClass="error"/>
-                        
-                        <h:outputLabel for="status" value="Status:" />
-                        <h:selectOneRadio id="status" value="#{TasksBean.status}"
-                                 required="true" 
-                                 requiredMessage="Please verify task status!">
-                        <f:selectItem itemValue="true" itemLabel="Task finished" />
-                        <f:selectItem itemValue="false" itemLabel="Task aborted" />
-                        <f:selectItem itemValue="ongoing" itemLabel="Needs more work" />
-                        </h:selectOneRadio>	
-                        <h:message for="status" styleClass="error"/>
-                        
-                        <h:outputLabel for="time" value="Total used time:" />
-                        <h:inputText id="time" value="#{TasksBean.usedTime}"
-                                 required="true" 
-                                 requiredMessage="Used time required!"
-                                 maxlength="20"/>
-                        <h:message for="time" styleClass="error"/>
-                        
-                        <h:outputLabel for="com" value="Comments:" />
-                        <h:inputText id="com" value="#{TasksBean.comments}"
-                                 required="true" 
-                                 requiredMessage="Please describe your work!"
-                                 maxlength="200"/>
-                        <h:message for="com" styleClass="error"/>
-                    </h:panelGrid>
-                    <h:commandButton id="save" value="Update task"
-                        styleClass="button" action="#{TasksBean.updateTask()}"/>
-                </h:form>
-         
+                <f:facet name="header"> 
+                    <h:outputText value="#{messages.taskUpdate}"/>
+                </f:facet>
+                    <h:outputLabel for="task" value="Task ID:" />
+                    <h:inputText id="task" value="#{TasksBean.taskId}"
+                             required="true" 
+                             requiredMessage="Task ID required!"
+                             maxlength="20"/>
+                    <h:message for="task" styleClass="error"/>
+
+                    <h:outputLabel for="status" value="Status:" />
+                    <h:selectOneRadio id="status" value="#{TasksBean.status}"
+                             required="true" 
+                             requiredMessage="Please verify task status!">
+                    <f:selectItem itemValue="Finished" itemLabel="Task finished" />
+                    <f:selectItem itemValue="Aborted" itemLabel="Task aborted" />
+                    <f:selectItem itemValue="In progress" itemLabel="Needs more work" />
+                    </h:selectOneRadio>	
+                    <h:message for="status" styleClass="error"/>
+
+                    <h:outputLabel for="time" value="Total used time:" />
+                    <h:inputText id="time" value="#{TasksBean.usedTime}"
+                             required="true" 
+                             requiredMessage="Used time required!"
+                             maxlength="20"/>
+                    <h:message for="time" styleClass="error"/>
+
+                    <h:outputLabel for="com" value="Comments:" />
+                    <h:inputText id="com" value="#{TasksBean.comments}"
+                             maxlength="200"/>
+                    <h:message for="com" styleClass="error"/>
+
+                <h:commandButton id="updateTask" value="Update task"
+                    styleClass="button" action="#{TasksBean.updateTask()}"/>
+
+            </h:panelGrid> 
+        </h:form>
+
     </h:body>
 </html>
 
